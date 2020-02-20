@@ -189,6 +189,11 @@ class BertTokenizer(TokenizerWithOffsets):
       vocab_lookup_table = lookup_ops.StaticVocabularyTableV1(
           init, num_oov_buckets=1, lookup_key_dtype=dtypes.string)
 
+    print("Before ", type(lower_case))
+    if isinstance(lower_case, ops.Tensor): 
+      lower_case = tf.compat.v1.get_default_session().run(lower_case)
+    print("After ", type(lower_case))
+
     self._basic_tokenizer = BasicTokenizer(lower_case, keep_whitespace,
                                            normalization_form,
                                            preserve_unused_token)
